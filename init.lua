@@ -74,30 +74,8 @@ Kickstart Guide:
 
     Throughout the file. These are for you, the reader, to help you understand what is happening.
     Feel free to delete them once you know what you're doing, but they should serve as a guide
-    for when you are first encountering a few different constructs in your Neovim config.
-
-If you experience any errors while trying to install kickstart, run `:checkhealth` for more info.
-
-I hope you enjoy your Neovim journey,
-- TJ
-
-P.S. You can delete this when you're done too. It's your config now! :)
---]]
-
--- Set <space> as the leader key
--- See `:help mapleader`
---  NOTE: Must happen before plugins are loaded (otherwise wrong leader will be used)
-vim.g.mapleader = ' '
-vim.g.maplocalleader = ' '
-
--- Set to true if you have a Nerd Font installed and selected in the terminal
-vim.g.have_nerd_font = false
-
--- [[ Setting options ]]
--- See `:help vim.o`
--- NOTE: You can change these options as you wish!
---  For more options, you can see `:help option-list`
-
+    for when you are first encountering a few different constructs in your Neovim config. If you experience any errors while trying to install kickstart, run `:checkhealth` for more info. I hope you enjoy your Neovim journey, - TJ P.S. You can delete this when you're done too. It's your config now! :) --]]
+-- Set <space> as the leader key See `:help mapleader` NOTE: Must happen before plugins are loaded (otherwise wrong leader will be used) vim.g.mapleader = ' ' vim.g.maplocalleader = ' ' -- Set to true if you have a Nerd Font installed and selected in the terminal vim.g.have_nerd_font = false -- [[ Setting options ]] See `:help vim.o` NOTE: You can change these options as you wish! For more options, you can see `:help option-list`
 -- Make line numbers default
 vim.o.number = true
 -- You can also add relative line numbers, to help with jumping.
@@ -886,8 +864,11 @@ require('lazy').setup({
     config = function()
       ---@diagnostic disable-next-line: missing-fields
       require('tokyonight').setup {
+        transparent = true, -- <-- key line
         styles = {
-          comments = { italic = false }, -- Disable italics in comments
+          comments = { italic = false },
+          sidebars = 'transparent',
+          floats = 'transparent',
         },
       }
 
