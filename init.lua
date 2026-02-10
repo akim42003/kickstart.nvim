@@ -19,7 +19,7 @@ Helpful commands:
 -- ============================================================================
 -- Must be set before plugins are loaded
 vim.g.mapleader = ' '
-vim.g.maplocalleader = ' '
+vim.g.maplocalleader = '\\'
 
 -- Set to true if you have a Nerd Font installed
 vim.g.have_nerd_font = false
