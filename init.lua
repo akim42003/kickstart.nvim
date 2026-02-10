@@ -133,6 +133,57 @@ vim.opt.rtp:prepend(lazypath)
 -- ============================================================================
 
 require('lazy').setup({
+  {
+    'MeanderingProgrammer/render-markdown.nvim',
+    dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-mini/mini.nvim' }, -- if you use the mini.nvim suite
+    -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-mini/mini.icons' },        -- if you use standalone mini plugins
+    -- dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' }, -- if you prefer nvim-web-devicons
+    ---@module 'render-markdown'
+    ---@type render.md.UserConfig
+    opts = {
+      latex = {
+        enabled = true,
+        converter = 'latex2text',
+        top_pad = 0,
+        bottom_pad = 0,
+      },
+    },
+  },
+  {
+    'benlubas/molten-nvim',
+    version = '^1.0.0',
+    build = ':UpdateRemotePlugins',
+    dependencies = {
+      '3rd/image.nvim', -- optional, for image rendering
+    },
+    init = function()
+      -- Output window settings
+      vim.g.molten_output_win_max_height = 20
+      vim.g.molten_auto_open_output = false
+      vim.g.molten_wrap_output = true
+      vim.g.molten_virt_text_output = true
+      vim.g.molten_virt_lines_off_by_1 = true
+    end,
+    keys = {
+      { '<leader>mi', ':MoltenInit<CR>', desc = '[M]olten [I]nit kernel' },
+      { '<leader>ml', ':MoltenEvaluateLine<CR>', desc = '[M]olten evaluate [L]ine' },
+      { '<leader>mr', ':MoltenReevaluateCell<CR>', desc = '[M]olten [R]eevaluate cell' },
+      { '<leader>mv', ':<C-u>MoltenEvaluateVisual<CR>gv', mode = 'v', desc = '[M]olten evaluate [V]isual' },
+      { '<leader>md', ':MoltenDelete<CR>', desc = '[M]olten [D]elete cell' },
+      { '<leader>mo', ':MoltenShowOutput<CR>', desc = '[M]olten show [O]utput' },
+      { '<leader>mh', ':MoltenHideOutput<CR>', desc = '[M]olten [H]ide output' },
+    },
+  },
+  {
+    'GCBallesteros/jupytext.nvim',
+    config = true,
+    opts = {
+      style = 'markdown',
+      output_extension = 'md',
+      force_ft = 'markdown',
+    },
+    -- Ensure jupytext CLI is installed: pip install jupytext
+  },
   -- Detect indentation automatically
   'NMAC427/guess-indent.nvim',
 
@@ -277,6 +328,7 @@ require('lazy').setup({
         { '<leader>s', group = '[S]earch' },
         { '<leader>t', group = '[T]oggle' },
         { '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
+        { '<leader>m', group = '[M]olten' },
       },
     },
   },
@@ -634,6 +686,7 @@ require('lazy').setup({
         'html',
         'lua',
         'luadoc',
+        'latex',
         'markdown',
         'markdown_inline',
         'python',
