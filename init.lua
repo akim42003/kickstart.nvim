@@ -149,6 +149,57 @@ require('lazy').setup({
       },
     },
   },
+  -- Quarto: gives you cell-aware run commands on top of molten
+  {
+    'quarto-dev/quarto-nvim',
+    ft = { 'quarto', 'markdown' },
+    dependencies = {
+      'jmbuhr/otter.nvim',
+      'benlubas/molten-nvim',
+    },
+    config = function()
+      require('quarto').setup {
+        lspFeatures = {
+          enabled = true,
+          chunks = 'all',
+          languages = { 'python' },
+          diagnostics = {
+            enabled = true,
+            triggers = { 'BufWritePost' },
+          },
+          completion = { enabled = true },
+        },
+        codeRunner = {
+          enabled = true,
+          default_method = 'molten',
+          ft_runners = { python = 'molten' },
+          never_run = { 'yaml' },
+        },
+      }
+
+      local runner = require 'quarto.runner'
+      vim.keymap.set('n', '<leader>rc', runner.run_cell, { desc = '[R]un [C]ell', silent = true })
+      vim.keymap.set('n', '<leader>ra', runner.run_above, { desc = '[R]un cell and [A]bove', silent = true })
+      vim.keymap.set('n', '<leader>rb', runner.run_below, { desc = '[R]un cell and [B]elow', silent = true })
+      vim.keymap.set('n', '<leader>rA', runner.run_all, { desc = '[R]un [A]ll cells', silent = true })
+      vim.keymap.set('n', '<leader>rl', runner.run_line, { desc = '[R]un [L]ine', silent = true })
+      vim.keymap.set('v', '<leader>r', runner.run_range, { desc = '[R]un visual range', silent = true })
+      -- Activate quarto on any markdown buffer (including jupytext-converted notebooks)
+      vim.api.nvim_create_autocmd('FileType', {
+        pattern = 'markdown',
+        callback = function()
+          require('quarto').activate()
+        end,
+      })
+    end,
+  },
+
+  -- otter.nvim: LSP completions/diagnostics inside code cells
+  {
+    'jmbuhr/otter.nvim',
+    dependencies = { 'nvim-treesitter/nvim-treesitter' },
+    opts = {},
+  },
   {
     'benlubas/molten-nvim',
     version = '^1.0.0',
@@ -167,6 +218,7 @@ require('lazy').setup({
     keys = {
       { '<leader>mi', ':MoltenInit<CR>', desc = '[M]olten [I]nit kernel' },
       { '<leader>ml', ':MoltenEvaluateLine<CR>', desc = '[M]olten evaluate [L]ine' },
+      { '<leader>ms', ':MoltenInterrupt<CR>', desc = '[M]olten interrupt' },
       { '<leader>mr', ':MoltenReevaluateCell<CR>', desc = '[M]olten [R]eevaluate cell' },
       { '<leader>mv', ':<C-u>MoltenEvaluateVisual<CR>gv', mode = 'v', desc = '[M]olten evaluate [V]isual' },
       { '<leader>md', ':MoltenDelete<CR>', desc = '[M]olten [D]elete cell' },
