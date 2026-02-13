@@ -219,6 +219,7 @@ require('lazy').setup({
       { '<leader>mi', ':MoltenInit<CR>', desc = '[M]olten [I]nit kernel' },
       { '<leader>ml', ':MoltenEvaluateLine<CR>', desc = '[M]olten evaluate [L]ine' },
       { '<leader>mr', ':MoltenReevaluateCell<CR>', desc = '[M]olten [R]eevaluate cell' },
+      { '<leader>ms', ':MoltenInterrupt<CR>', desc = '[M]olten interrupt' },
       { '<leader>mv', ':<C-u>MoltenEvaluateVisual<CR>gv', mode = 'v', desc = '[M]olten evaluate [V]isual' },
       { '<leader>md', ':MoltenDelete<CR>', desc = '[M]olten [D]elete cell' },
       { '<leader>mo', ':MoltenShowOutput<CR>', desc = '[M]olten show [O]utput' },
