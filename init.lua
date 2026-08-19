@@ -43,7 +43,15 @@ vim.o.showmode = false
 vim.schedule(function()
   vim.o.clipboard = 'unnamedplus'
 end)
-
+--spell check
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = { 'tex', 'plaintex' },
+  group = vim.api.nvim_create_augroup('spell-latex', { clear = true }),
+  callback = function()
+    vim.opt_local.spell = true
+    vim.opt_local.spelllang = { 'en_us' }
+  end,
+})
 -- Indentation
 vim.o.breakindent = true
 
@@ -173,7 +181,8 @@ require('lazy').setup({
       },
     },
   },
-  -- Quarto: gives you cell-aware run commands on top of molten
+  {
+    --   -- Quarto: gives you cell-aware run commands on top of molten
   {
     'quarto-dev/quarto-nvim',
     ft = { 'quarto', 'markdown' },
@@ -627,7 +636,7 @@ require('lazy').setup({
     opts = {
       notify_on_error = false,
       format_on_save = function(bufnr)
-        local disable_filetypes = { c = true, cpp = true }
+        local disable_filetypes = {}
         if disable_filetypes[vim.bo[bufnr].filetype] then
           return nil
         else
